@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jogo Educativo – Amigo dos Animais</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #fef3c7 0%, #e0f2fe 60%, #fee2e2 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 28px 26px 26px 26px;
+      width: 92%;
+      max-width: 920px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.28);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    h2 {
+      text-align: center;
+      color: #4b5563;
+      font-size: 1.05rem;
+      margin: 6px 0 0 0;
+    }
+
+    .image-box {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .image-box img {
+      width: 100%;
+      max-width: 320px;
+      height: 220px;
+      object-fit: contain;   /* mostra o animal inteiro */
+      border-radius: 16px;
+      background: #f3f4f6;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+      padding: 8px;
+    }
+
+    .question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+
+    .options {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.08s ease, box-shadow 0.18s ease;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .option:hover {
+      background: #eff6ff;
+      border-color: #60a5fa;
+      box-shadow: 0 5px 12px rgba(37, 99, 235, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .option.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #166534;
+    }
+
+    .option.incorrect {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+
+    .option:disabled {
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #0f172a;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #f9fafb;
+      min-height: 24px;
+    }
+
+    .score {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .bottom-row {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.6);
+      transition: background 0.18s ease, transform 0.08s ease, box-shadow 0.18s ease;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(30, 64, 175, 0.75);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      border-radius: 999px;
+      border: 1px solid #9ca3af;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 20px 16px 18px 16px;
+      }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jogo Educativo – Amigo dos Animais 🐾</h1>
+    <h2>Responde a 10 perguntas sobre curiosidades, alimentação, nidificação e características!</h2>
+
+    <div class="image-box">
+      <img id="animalImg" src="" alt="Animal" />
+    </div>
+
+    <div class="question" id="pergunta"></div>
+    <div class="options" id="opcoes"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <div class="bottom-row">
+      <div class="score" id="pontuacao"></div>
+      <div>
+        <button class="btn-secondary" id="btnReiniciar" style="display:none;">Jogar outra vez 🔄</button>
+        <button class="btn-primary" id="btnProxima">Próxima pergunta ➜</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animais e respetivo conteúdo
+    const animais = [
+      {
+        nome: "São-Bernardo",
+        imagem: "saobernardo2.png",
+        curiosidade: "É um cão gigante famoso por salvar pessoas na neve.",
+        alimentacao: "Alimenta-se de ração rica em proteínas e precisa de muita água.",
+        nidificacao: "Gosta de dormir em espaços amplos, frescos e confortáveis, com mantas no chão.",
+        caracteristica: "É calmo, muito meigo e protetor, especialmente com crianças.",
+      },
+      {
+        nome: "Cão da Serra da Estrela",
+        imagem: "serra2.png",
+        curiosidade: "É uma raça portuguesa que guarda rebanhos na Serra da Estrela.",
+        alimentacao: "Precisa de ração nutritiva adequada a cães de grande porte e exercício ao ar livre.",
+        nidificacao: "Prefere locais abrigados do frio e da chuva, muitas vezes perto do rebanho.",
+        caracteristica: "É leal, forte e muito protetor da família e do território.",
+      },
+      {
+        nome: "Persa",
+        imagem: "persa2.png",
+        curiosidade: "É uma das raças de gatos mais calmas e apreciadas para viver em apartamentos.",
+        alimentacao: "Come ração ou comida húmida de boa qualidade, própria para gatos de interior.",
+        nidificacao: "Gosta de dormir em locais altos e macios, como camas e almofadas.",
+        caracteristica: "É muito meigo, adora mimos e não gosta de ambientes barulhentos.",
+      },
+      {
+        nome: "Siamês",
+        imagem: "siames2.png",
+        curiosidade: "É conhecido por “falar” muito com as pessoas através de miados fortes.",
+        alimentacao: "Precisa de alimentação equilibrada para gatos ativos, com boa proteína.",
+        nidificacao: "Escolhe normalmente cantos quentes da casa, como sofás, cadeiras e camas.",
+        caracteristica: "É muito ativo, curioso, inteligente e muito ligado à família.",
+      },
+      {
+        nome: "Vira-lata (gato)",
+        imagem: "viralata2.png",
+        curiosidade: "Muitos são adotados após viverem na rua e tornam-se muito agradecidos.",
+        alimentacao: "Alimenta-se de ração comum para gatos e pode ser mais sensível se tiver vivido na rua.",
+        nidificacao: "Gosta de caixas de cartão, mantas e qualquer sítio onde se sinta seguro.",
+        caracteristica: "É geralmente independente, esperto e adapta-se bem a diferentes ambientes.",
+      },
+      {
+        nome: "Andorinha",
+        imagem: "andorinha2.png",
+        curiosidade: "Viaja todos os anos entre Portugal e África, percorrendo milhares de quilómetros.",
+        alimentacao: "Come insetos que apanha em voo, como moscas e mosquitos.",
+        nidificacao: "Constrói ninhos de barro e palha colados às paredes e beirais das casas.",
+        caracteristica: "É pequena, muito rápida e passa grande parte do tempo a voar.",
+      },
+      {
+        nome: "Pardal",
+        imagem: "pardal2.png",
+        curiosidade: "Gosta de viver perto das pessoas e encontra-se facilmente em cidades e aldeias.",
+        alimentacao: "Alimenta-se de sementes, migalhas de pão e pequenos insetos.",
+        nidificacao: "Faz ninhos simples em telhados, árvores e buracos nas paredes.",
+        caracteristica: "É pequeno, castanho e muito sociável, vive normalmente em grupo.",
+      },
+      {
+        nome: "Pomba",
+        imagem: "pombo2.png",
+        curiosidade: "As pombas-correio conseguem voltar a casa mesmo a muitos quilómetros de distância.",
+        alimentacao: "Come grãos, sementes e restos de comida que encontra no chão.",
+        nidificacao: "Constrói ninhos com ramos em varandas, beirais e estruturas altas.",
+        caracteristica: "É pacífica, voa em bando e está muito adaptada às cidades.",
+      }
+    ];
+
+    // Tipos de pergunta apoiados
+    const tiposPergunta = [
+      { campo: "curiosidade", texto: "Qual destas curiosidades é verdadeira sobre este animal?" },
+      { campo: "alimentacao", texto: "O que este animal costuma comer?" },
+      { campo: "nidificacao", texto: "Onde este animal normalmente faz o seu ninho ou local de descanso?" },
+      { campo: "caracteristica", texto: "Qual é uma característica típica deste animal?" },
+    ];
+
+    const NUM_PERGUNTAS = 10;
+
+    let indiceAtual = 0;
+    let pontuacao = 0;
+    let perguntas = [];
+
+    const img = document.getElementById("animalImg");
+    const perguntaEl = document.getElementById("pergunta");
+    const opcoesEl = document.getElementById("opcoes");
+    const feedbackEl = document.getElementById("feedback");
+    const pontuacaoEl = document.getElementById("pontuacao");
+    const btnProxima = document.getElementById("btnProxima");
+    const btnReiniciar = document.getElementById("btnReiniciar");
+
+    function baralhar(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function gerarPerguntas() {
+      const lista = [];
+      for (let i = 0; i < NUM_PERGUNTAS; i++) {
+        const animal = animais[Math.floor(Math.random() * animais.length)];
+        const tipo = tiposPergunta[Math.floor(Math.random() * tiposPergunta.length)];
+        lista.push({ animal, tipo });
+      }
+      return lista;
+    }
+
+    function mostrarPergunta() {
+      feedbackEl.textContent = "";
+
+      if (indiceAtual >= NUM_PERGUNTAS) {
+        // Fim de jogo
+        perguntaEl.textContent = "Fim do jogo!";
+        opcoesEl.innerHTML = "";
+        img.src = "";
+        btnProxima.style.display = "none";
+        btnReiniciar.style.display = "inline-block";
+
+        pontuacaoEl.textContent = `Respondeste a ${NUM_PERGUNTAS} perguntas e acertaste ${pontuacao}.`;
+        feedbackEl.textContent = pontuacao >= NUM_PERGUNTAS * 0.7
+          ? "Excelente! Já conheces muito bem estes animais. 🏆"
+          : "Boa tentativa! Podes jogar outra vez para aprenderes ainda mais. 🐾";
+        return;
+      }
+
+      const { animal, tipo } = perguntas[indiceAtual];
+
+      img.src = animal.imagem;
+      img.alt = animal.nome;
+
+      perguntaEl.textContent = `${animal.nome} – ${tipo.texto}`;
+
+      const correta = animal[tipo.campo];
+      const outras = animais
+        .filter(a => a.nome !== animal.nome)
+        .map(a => a[tipo.campo])
+        .filter(Boolean);
+
+      const opcoesArr = baralhar([correta, ...outras.slice(0, 2)]);
+
+      opcoesEl.innerHTML = "";
+      opcoesArr.forEach(texto => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option";
+        btn.textContent = texto;
+        btn.onclick = () => verificarResposta(texto, correta);
+        opcoesEl.appendChild(btn);
+      });
+
+      pontuacaoEl.textContent = `Pergunta ${indiceAtual + 1} de ${NUM_PERGUNTAS} | Pontos: ${pontuacao}`;
+    }
+
+    function verificarResposta(resposta, correta) {
+      const botoes = document.querySelectorAll(".option");
+      botoes.forEach(b => b.disabled = true);
+
+      if (resposta === correta) {
+        pontuacao++;
+        feedbackEl.textContent = "✅ Correto! Muito bem.";
+      } else {
+        feedbackEl.textContent = `❌ A resposta certa era: ${correta}`;
+      }
+
+      botoes.forEach(b => {
+        if (b.textContent === correta) {
+          b.classList.add("correct");
+        } else if (b.textContent === resposta && resposta !== correta) {
+          b.classList.add("incorrect");
+        }
+      });
+
+      pontuacaoEl.textContent = `Pergunta ${indiceAtual + 1} de ${NUM_PERGUNTAS} | Pontos: ${pontuacao}`;
+    }
+
+    btnProxima.addEventListener("click", () => {
+      // só avança depois de responder (quando já existem botões disabled)
+      const respondeu = document.querySelector(".option:disabled");
+      if (!respondeu && indiceAtual < NUM_PERGUNTAS) return;
+
+      indiceAtual++;
+      mostrarPergunta();
+    });
+
+    btnReiniciar.addEventListener("click", () => {
+      indiceAtual = 0;
+      pontuacao = 0;
+      btnProxima.style.display = "inline-block";
+      btnReiniciar.style.display = "none";
+      perguntas = gerarPerguntas();
+      mostrarPergunta();
+    });
+
+    // inicialização
+    perguntas = gerarPerguntas();
+    mostrarPergunta();
+  </script>
+</body>
+</html>

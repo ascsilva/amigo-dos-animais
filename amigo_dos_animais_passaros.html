@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Amigo dos Animais - Pássaros</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
+      background: #fef9c3;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: linear-gradient(180deg, #fefce8 0%, #e0f2fe 50%, #fee2e2 100%);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1; /* fica por cima dos ícones do fundo */
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin: 0;
+      color: #1d4ed8;
+      text-shadow: 0 2px 6px rgba(15, 23, 42, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #334155;
+    }
+
+    /* Ícones de animais no fundo */
+    .bg-animals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
+    }
+
+    .animal-icon {
+      position: absolute;
+      font-size: 4rem;
+    }
+
+    .animal-bird {
+      top: 10%;
+      left: 8%;
+      animation: flutuar 6s ease-in-out infinite;
+    }
+
+    .animal-dog {
+      bottom: 8%;
+      left: 5%;
+      animation: abanar 3s ease-in-out infinite;
+    }
+
+    .animal-cat {
+      bottom: 10%;
+      right: 6%;
+      animation: saltar 4s ease-in-out infinite;
+    }
+
+    .animal-bird-2 {
+      top: 18%;
+      right: 18%;
+      animation: flutuar 7s ease-in-out infinite;
+    }
+
+    @keyframes flutuar {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes abanar {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(4deg); }
+      50% { transform: rotate(-4deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes saltar {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 3px solid #93c5fd;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      border-color: #2563eb;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .details {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #dbeafe;
+      border: 2px solid #60a5fa;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+    }
+
+    .details h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #1d4ed8;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .details img {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+
+    .details audio {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .tip {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #1f2937;
+    }
+
+    .info p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .emoji {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    .back-wrapper {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #f97316;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(194, 65, 12, 0.6);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .back-btn:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.75);
+    }
+
+    .back-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(194, 65, 12, 0.6);
+    }
+
+    .audio-toggle {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .audio-toggle button {
+      margin-left: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #1d4ed8;
+      background: #ffffff;
+      color: #1d4ed8;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .audio-toggle button:hover {
+      background: #1d4ed8;
+      color: #ffffff;
+    }
+
+    @media (max-width: 720px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ícones de animais no fundo -->
+  <div class="bg-animals">
+    <span class="animal-icon animal-bird">🐦</span>
+    <span class="animal-icon animal-bird-2">🕊️</span>
+    <span class="animal-icon animal-dog">🐶</span>
+    <span class="animal-icon animal-cat">🐱</span>
+  </div>
+
+  <div class="container">
+    <h1>🐾 Amigo dos Animais</h1>
+    <h2>Especialidade: Pássaros</h2>
+    <p class="subtitle">Clica num pássaro para o conhecer melhor. Vê as fotos, ouve o som e descobre curiosidades!</p>
+
+    <!-- controlo do som ambiente -->
+    <div class="audio-toggle">
+      Som de fundo dos animais:
+      <button id="btn-som">Ligar</button>
+    </div>
+
+    <div class="grid" id="grid-passaros"></div>
+    <div id="detalhes"></div>
+  </div>
+
+  <!-- áudio ambiente (chilrear + cães + gatos) -->
+  <audio id="audio-ambiente" src="ambiente-animais.mp3" loop></audio>
+
+  <script>
+    const passaros = [
+      {
+        nome: "Andorinha",
+        imagens: ["andorinha1.png", "andorinha2.png"],
+        som: "som-andorinha.mp3",
+        vida: "Vive em média entre 6 e 8 anos.",
+        ovos: "Costuma pôr 4 a 5 ovos.",
+        alimentacao: "Come insetos que apanha enquanto voa, como moscas e mosquitos.",
+        ninho:
+          "Faz ninhos de barro e palha, colados às paredes e beirais das casas ou estábulos.",
+        migratoria: "Sim. No outono voa para África e volta na primavera.",
+        curiosidade:
+          "Muitas andorinhas voltam todos os anos ao mesmo sítio para usar o mesmo ninho!"
+      },
+      {
+        nome: "Pardal",
+        imagens: ["pardal1.png", "pardal2.png"],
+        som: "som-pardal.mp3",
+        vida: "Geralmente vive entre 3 e 5 anos.",
+        ovos: "Põe 3 a 7 ovos de cada vez.",
+        alimentacao: "Adora sementes, migalhas de pão e também alguns insetos.",
+        ninho:
+          "Constrói ninhos com ramos, palha e penas em telhados, buracos nas paredes ou árvores.",
+        migratoria: "Não. Fica o ano inteiro perto das pessoas e das casas.",
+        curiosidade:
+          "Os pardais gostam tanto das cidades que é raro vê-los longe das pessoas."
+      },
+      {
+        nome: "Pomba",
+        imagens: ["pombo1.png", "pombo2.png"],
+        som: "som-pombo.mp3",
+        vida: "Pode viver entre 6 e 10 anos. Em cativeiro às vezes chega aos 15.",
+        ovos: "Normalmente põe 2 ovos.",
+        alimentacao: "Come grãos, sementes e restos de comida que encontra no chão.",
+        ninho:
+          "Faz ninhos simples com ramos em varandas, beirais de prédios ou árvores.",
+        migratoria:
+          "Não é migratória, mas pode voar muitos quilómetros por dia dentro da mesma região.",
+        curiosidade:
+          "As pombas-correio conseguem encontrar o caminho de volta para casa mesmo muito longe!"
+      }
+    ];
+
+    const grid = document.getElementById("grid-passaros");
+    const detalhes = document.getElementById("detalhes");
+    const audioAmbiente = document.getElementById("audio-ambiente");
+    const btnSom = document.getElementById("btn-som");
+    let somLigado = false;
+
+    btnSom.addEventListener("click", () => {
+      if (!somLigado) {
+        audioAmbiente.volume = 0.3;
+        audioAmbiente.play().catch(() => {});
+        btnSom.textContent = "Desligar";
+        somLigado = true;
+      } else {
+        audioAmbiente.pause();
+        btnSom.textContent = "Ligar";
+        somLigado = false;
+      }
+    });
+
+    function desenharLista() {
+      grid.innerHTML = "";
+      passaros.forEach((p, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${p.imagens[0]}" alt="${p.nome}" />
+          <div class="card-title">${p.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e descobrir ✨</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhes(index));
+        grid.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhes(idx) {
+      const p = passaros[idx];
+      detalhes.innerHTML = `
+        <div class="details">
+          <h3>${p.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${p.imagens[1]}" alt="${p.nome}" />
+              <audio controls autoplay>
+                <source src="${p.som}" type="audio/mpeg" />
+                O teu navegador não suporta áudio.
+              </audio>
+              <div class="tip">👂 Fecha os olhos, ouve o som e tenta imitar este pássaro!</div>
+            </div>
+            <div class="info">
+              <p><span class="emoji">⏳</span><span class="label">Quanto tempo vive?</span> ${p.vida}</p>
+              <p><span class="emoji">🥚</span><span class="label">Quantos ovos põe?</span> ${p.ovos}</p>
+              <p><span class="emoji">🍽️</span><span class="label">O que gosta de comer?</span> ${p.alimentacao}</p>
+              <p><span class="emoji">🏠</span><span class="label">Como é o ninho?</span> ${p.ninho}</p>
+              <p><span class="emoji">🧭</span><span class="label">Viaja para outros países?</span> ${p.migratoria}</p>
+              <p><span class="emoji">✨</span><span class="label">Curiosidade:</span> ${p.curiosidade}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhes()">Voltar à escolha dos pássaros</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhes.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhes() {
+      detalhes.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.fecharDetalhes = fecharDetalhes;
+
+    desenharLista();
+  </script>
+</body>
+</html>

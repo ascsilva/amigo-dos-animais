@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Amigo dos Animais - Cães</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
+      background: #fee2e2;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: radial-gradient(circle at top, #fff7ed 0%, #fee2e2 40%, #dbeafe 100%);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin: 0;
+      color: #b91c1c;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    /* Fundo com cães e patas */
+    .bg-dogs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    .icon-dog {
+      position: absolute;
+      font-size: 4rem;
+    }
+
+    .dog-1 { top: 12%; left: 6%; animation: saltar 5s ease-in-out infinite; }
+    .dog-2 { top: 18%; right: 10%; animation: abanar 4s ease-in-out infinite; }
+    .dog-3 { bottom: 10%; left: 12%; animation: rebolar 6s ease-in-out infinite; }
+    .dog-4 { bottom: 8%; right: 8%; animation: abanar 5s ease-in-out infinite; }
+
+    @keyframes saltar {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes abanar {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(4deg); }
+      50% { transform: rotate(-4deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes rebolar {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 3px solid #fecaca;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      border-color: #f97316;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .details {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #fee2e2;
+      border: 2px solid #fecaca;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+    }
+
+    .details h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #b91c1c;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .details img {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+
+    .details audio {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .tip {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #1f2937;
+    }
+
+    .info p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .emoji {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    .back-wrapper {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #f97316;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(194, 65, 12, 0.6);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .back-btn:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.75);
+    }
+
+    .back-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(194, 65, 12, 0.6);
+    }
+
+    .audio-toggle {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .audio-toggle button {
+      margin-left: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #b91c1c;
+      background: #ffffff;
+      color: #b91c1c;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .audio-toggle button:hover {
+      background: #b91c1c;
+      color: #ffffff;
+    }
+
+    @media (max-width: 720px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fundo com cães animados -->
+  <div class="bg-dogs">
+    <span class="icon-dog dog-1">🐶</span>
+    <span class="icon-dog dog-2">🐕‍🦺</span>
+    <span class="icon-dog dog-3">🐾</span>
+    <span class="icon-dog dog-4">🦴</span>
+  </div>
+
+  <div class="container">
+    <h1>🐶 Amigo dos Animais</h1>
+    <h2>Especialidade: Cães</h2>
+    <p class="subtitle">Clica numa raça para a conhecer melhor. Vê as fotos, ouve o ladrar e descobre como cuidar bem destes amigos!</p>
+
+    <div class="audio-toggle">
+      Som de fundo dos cães:
+      <button id="btn-som">Ligar</button>
+    </div>
+
+    <div class="grid" id="grid-caes"></div>
+    <div id="detalhes"></div>
+  </div>
+
+  <!-- som ambiente de cães a brincar (ficheiro à parte) -->
+  <audio id="audio-ambiente" src="ambiente-caes.mp3" loop></audio>
+
+  <script>
+    const caes = [
+      {
+        nome: "Pastor Alemão",
+        imagens: ["pastor1.png", "pastor2.png"],
+        som: "som-pastor.mp3",
+        porte: "Médio/grande, forte e atlético.",
+        tempoVida: "Vive normalmente entre 10 e 14 anos.",
+        caracter:
+          "É um cão muito inteligente, corajoso e fiel. Gosta de trabalhar e proteger a família.",
+        saude:
+          "Geralmente é saudável, mas pode ter problemas nas ancas e na coluna se não for bem acompanhado pelo veterinário.",
+        exercicio:
+          "Precisa de muitos passeios, corridas e jogos para gastar energia todos os dias.",
+        curiosidade:
+          "É muito usado como cão-polícia e cão de salvamento porque aprende comandos com muita facilidade."
+      },
+      {
+        nome: "São-Bernardo",
+        imagens: ["saobernardo1.png", "saobernardo2.png"],
+        som: "som-saobernardo.mp3",
+        porte: "É um gigante muito pesado, podendo passar dos 80 kg.",
+        tempoVida: "Costuma viver menos de 10 anos, por ser uma raça muito grande.",
+        caracter:
+          "É calmo, muito meigo e adora crianças. Precisa de estar perto da família e é um ótimo cão de guarda.",
+        saude:
+          "Pode ter problemas de ancas e precisa de controlo do peso para não sobrecarregar as articulações.",
+        exercicio:
+          "Não é muito rápido, mas precisa de bons passeios diários para se manter saudável.",
+        curiosidade:
+          "Ficou famoso por ajudar a salvar pessoas na neve nas montanhas da Suíça."
+      },
+      {
+        nome: "Cão da Serra da Estrela",
+        imagens: ["serra1.png", "serra2.png"],
+        som: "som-serra.mp3",
+        porte: "Grande e forte, próprio para guardar rebanhos nas montanhas.",
+        tempoVida: "Vive em média cerca de 12 anos.",
+        caracter:
+          "É muito leal, protetor e afetuoso com a família, especialmente com as crianças.",
+        saude:
+          "Como outras raças grandes, pode ter displasia da anca. Precisa de boa alimentação e exercício moderado.",
+        exercicio:
+          "Gosta de espaço ao ar livre e de passeios diários, mas não é um cão hiperativo.",
+        curiosidade:
+          "É uma raça portuguesa que protege o gado na Serra da Estrela, mesmo com frio e neve."
+      }
+    ];
+
+    const grid = document.getElementById("grid-caes");
+    const detalhes = document.getElementById("detalhes");
+    const audioAmbiente = document.getElementById("audio-ambiente");
+    const btnSom = document.getElementById("btn-som");
+    let somLigado = false;
+
+    btnSom.addEventListener("click", () => {
+      if (!somLigado) {
+        audioAmbiente.volume = 0.3;
+        audioAmbiente.play().catch(() => {});
+        btnSom.textContent = "Desligar";
+        somLigado = true;
+      } else {
+        audioAmbiente.pause();
+        btnSom.textContent = "Ligar";
+        somLigado = false;
+      }
+    });
+
+    function desenharLista() {
+      grid.innerHTML = "";
+      caes.forEach((c, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${c.imagens[0]}" alt="${c.nome}" />
+          <div class="card-title">${c.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e conhecer melhor 🐾</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhes(index));
+        grid.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhes(idx) {
+      const c = caes[idx];
+      detalhes.innerHTML = `
+        <div class="details">
+          <h3>${c.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${c.imagens[1]}" alt="${c.nome}" />
+              
+            </div>
+            <div class="info">
+              <p><span class="emoji">📏</span><span class="label">Tamanho:</span> ${c.porte}</p>
+              <p><span class="emoji">⏳</span><span class="label">Tempo de vida:</span> ${c.tempoVida}</p>
+              <p><span class="emoji">💚</span><span class="label">Caráter:</span> ${c.caracter}</p>
+              <p><span class="emoji">🩺</span><span class="label">Saúde:</span> ${c.saude}</p>
+              <p><span class="emoji">🏃‍♂️</span><span class="label">Exercício:</span> ${c.exercicio}</p>
+              <p><span class="emoji">✨</span><span class="label">Curiosidade:</span> ${c.curiosidade}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhes()">Voltar à escolha dos cães</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhes.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhes() {
+      detalhes.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.fecharDetalhes = fecharDetalhes;
+
+    desenharLista();
+  </script>
+</body>
+</html>

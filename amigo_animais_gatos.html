@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Amigo dos Animais - Gatos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
+      background: #ede9fe;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: radial-gradient(circle at top, #faf5ff 0%, #e0f2fe 40%, #fee2e2 100%);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin: 0;
+      color: #7c3aed;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    /* Fundo com gatos e peixinhos */
+    .bg-cats {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    .icon-cat {
+      position: absolute;
+      font-size: 3.5rem;
+    }
+
+    .cat-1 { top: 12%; left: 8%; animation: saltar 5s ease-in-out infinite; }
+    .cat-2 { top: 18%; right: 10%; animation: olhar 4s ease-in-out infinite; }
+    .cat-3 { bottom: 10%; left: 12%; animation: rebolar 6s ease-in-out infinite; }
+    .cat-4 { bottom: 8%; right: 8%; animation: olhar 5s ease-in-out infinite; }
+
+    @keyframes saltar {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes olhar {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(6deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes rebolar {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 3px solid #ddd6fe;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      border-color: #a855f7;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .details {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #ede9fe;
+      border: 2px solid #ddd6fe;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+    }
+
+    .details h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #7c3aed;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .details img {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+
+    .details audio {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .tip {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #1f2937;
+    }
+
+    .info p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .emoji {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    .back-wrapper {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #a855f7;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(126, 34, 206, 0.6);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .back-btn:hover {
+      background: #7c3aed;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(126, 34, 206, 0.75);
+    }
+
+    .back-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(126, 34, 206, 0.6);
+    }
+
+    .audio-toggle {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .audio-toggle button {
+      margin-left: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #7c3aed;
+      background: #ffffff;
+      color: #7c3aed;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .audio-toggle button:hover {
+      background: #7c3aed;
+      color: #ffffff;
+    }
+
+    @media (max-width: 720px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fundo com gatos animados -->
+  <div class="bg-cats">
+    <span class="icon-cat cat-1">🐱</span>
+    <span class="icon-cat cat-2">😺</span>
+    <span class="icon-cat cat-3">🐾</span>
+    <span class="icon-cat cat-4">🐟</span>
+  </div>
+
+  <div class="container">
+    <h1>🐱 Amigo dos Animais</h1>
+    <h2>Especialidade: Gatos</h2>
+    <p class="subtitle">Clica numa raça de gato para a conhecer melhor. Vê as fotos, ouve o miar e descobre como cuidar bem destes amigos felinos!</p>
+
+    <div class="audio-toggle">
+      Som de fundo dos gatos:
+      <button id="btn-som">Ligar</button>
+    </div>
+
+    <div class="grid" id="grid-gatos"></div>
+    <div id="detalhes"></div>
+  </div>
+
+  <!-- som ambiente de gatos (ficheiro à parte) -->
+  <audio id="audio-ambiente" src="ambiente-gatos.mp3" loop></audio>
+
+  <script>
+    const gatos = [
+      {
+        nome: "Persa",
+        imagens: ["persa1.png", "persa2.png"],
+        som: "som-persa.mp3",
+        porte: "Gato de tamanho médio a grande, com pelo muito comprido e macio.",
+        personalidade:
+          "É calmo, muito meigo e adora colo e miminhos. Gosta de viver em apartamentos tranquilos.",
+        saude:
+          "Pode ter alguns problemas respiratórios por causa do focinho achatado. Precisa de ambiente fresco e visitas regulares ao veterinário.",
+        inteligencia:
+          "É inteligente e sensível. Gosta de rotina e é muito higiénico, precisa da caixa de areia sempre limpa.",
+        tempoVida:
+          "Costuma viver cerca de 14 anos se for bem cuidado."
+      },
+      {
+        nome: "Siamês",
+        imagens: ["siames1.png", "siames2.png"],
+        som: "som-siames.mp3",
+        porte: "Gato esguio e elegante, de tamanho médio, com olhos azul-safira.",
+        personalidade:
+          "É muito brincalhão, falador e ligado às pessoas. Gosta de estar no meio da família e de chamar a atenção.",
+        saude:
+          "É geralmente saudável e atlético, mas pode ter algumas doenças respiratórias e cardíacas. Precisa de acompanhamento veterinário.",
+        inteligencia:
+          "É um dos gatos mais inteligentes. Aprende truques, abre portas e mia muito para dizer o que quer.",
+        tempoVida:
+          "Tem expectativa de vida longa: normalmente entre 15 e 20 anos."
+      },
+      {
+        nome: "Vira-lata",
+        imagens: ["viralata1.png", "viralata2.png"],
+        som: "som-viralata.mp3",
+        porte: "Pode ser pequeno, médio ou grande – não há um padrão fixo.",
+        personalidade:
+          "Costuma ser muito grato e carinhoso quando é adotado. O seu temperamento pode variar: alguns são mais calmos, outros mais ariscos.",
+        saude:
+          "Muitos são fortes e resistentes, mas os que vivem na rua podem ficar doentes. Quando têm casa, vacinas e bons cuidados, ficam muito saudáveis.",
+        inteligencia:
+          "São espertos, independentes e adoram decidir por si. Normalmente aprendem a sobreviver sozinhos antes de serem adotados.",
+        tempoVida:
+          "Os que têm uma casa segura podem viver até cerca de 20 anos."
+      }
+    ];
+
+    const grid = document.getElementById("grid-gatos");
+    const detalhes = document.getElementById("detalhes");
+    const audioAmbiente = document.getElementById("audio-ambiente");
+    const btnSom = document.getElementById("btn-som");
+    let somLigado = false;
+
+    btnSom.addEventListener("click", () => {
+      if (!somLigado) {
+        audioAmbiente.volume = 0.3;
+        audioAmbiente.play().catch(() => {});
+        btnSom.textContent = "Desligar";
+        somLigado = true;
+      } else {
+        audioAmbiente.pause();
+        btnSom.textContent = "Ligar";
+        somLigado = false;
+      }
+    });
+
+    function desenharLista() {
+      grid.innerHTML = "";
+      gatos.forEach((g, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${g.imagens[0]}" alt="${g.nome}" />
+          <div class="card-title">${g.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e conhecer melhor 😺</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhes(index));
+        grid.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhes(idx) {
+      const g = gatos[idx];
+      detalhes.innerHTML = `
+        <div class="details">
+          <h3>${g.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${g.imagens[1]}" alt="${g.nome}" />
+              
+            </div>
+            <div class="info">
+              <p><span class="emoji">📏</span><span class="label">Tamanho e aparência:</span> ${g.porte}</p>
+              <p><span class="emoji">💚</span><span class="label">Personalidade:</span> ${g.personalidade}</p>
+              <p><span class="emoji">🩺</span><span class="label">Saúde:</span> ${g.saude}</p>
+              <p><span class="emoji">🧠</span><span class="label">Inteligência:</span> ${g.inteligencia}</p>
+              <p><span class="emoji">⏳</span><span class="label">Tempo de vida:</span> ${g.tempoVida}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhes()">Voltar à escolha dos gatos</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhes.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhes() {
+      detalhes.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.fecharDetalhes = fecharDetalhes;
+
+    desenharLista();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Amigo dos Animais</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      overflow-x: hidden;
+      transition: background 0.3s ease;
+    }
+
+    /* Temas por secção */
+    body.dogs {
+      background: radial-gradient(circle at top, #fff7ed 0%, #fee2e2 40%, #dbeafe 100%);
+    }
+    body.cats {
+      background: radial-gradient(circle at top, #faf5ff 0%, #e0f2fe 40%, #fee2e2 100%);
+    }
+    body.birds {
+      background: linear-gradient(180deg, #fefce8 0%, #e0f2fe 50%, #fee2e2 100%);
+    }
+    body.game {
+      background: linear-gradient(180deg, #fef3c7 0%, #e0f2fe 60%, #fee2e2 100%);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin: 0;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    /* Cores por tema */
+    body.dogs h1 { color: #b91c1c; }
+    body.cats h1 { color: #7c3aed; }
+    body.birds h1 { color: #1d4ed8; }
+    body.game h1 { color: #0f172a; }
+
+    /* Top nav */
+    .top-nav {
+      max-width: 960px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .top-nav button {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid #0f172a;
+      background: #ffffff;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .top-nav button.active {
+      background: #0f172a;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.3);
+    }
+
+    .top-nav button:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Fundo com ícones */
+    .bg-dogs,
+    .bg-cats,
+    .bg-animals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+      display: none;
+    }
+
+    body.dogs .bg-dogs { display: block; }
+    body.cats .bg-cats { display: block; }
+    body.birds .bg-animals { display: block; }
+
+    .icon-dog,
+    .icon-cat,
+    .animal-icon {
+      position: absolute;
+      font-size: 4rem;
+    }
+
+    .icon-dog { font-size: 4rem; }
+    .icon-cat { font-size: 3.5rem; }
+
+    .dog-1 { top: 12%; left: 6%; animation: saltar 5s ease-in-out infinite; }
+    .dog-2 { top: 18%; right: 10%; animation: abanar 4s ease-in-out infinite; }
+    .dog-3 { bottom: 10%; left: 12%; animation: rebolar 6s ease-in-out infinite; }
+    .dog-4 { bottom: 8%; right: 8%; animation: abanar 5s ease-in-out infinite; }
+
+    .cat-1 { top: 12%; left: 8%; animation: saltar 5s ease-in-out infinite; }
+    .cat-2 { top: 18%; right: 10%; animation: olhar 4s ease-in-out infinite; }
+    .cat-3 { bottom: 10%; left: 12%; animation: rebolar 6s ease-in-out infinite; }
+    .cat-4 { bottom: 8%; right: 8%; animation: olhar 5s ease-in-out infinite; }
+
+    .animal-bird   { top: 10%; left: 8%; animation: flutuar 6s ease-in-out infinite; }
+    .animal-dog    { bottom: 8%; left: 5%; animation: abanar 3s ease-in-out infinite; }
+    .animal-cat    { bottom: 10%; right: 6%; animation: saltar 4s ease-in-out infinite; }
+    .animal-bird-2 { top: 18%; right: 18%; animation: flutuar 7s ease-in-out infinite; }
+
+    @keyframes saltar {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes abanar {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(4deg); }
+      50% { transform: rotate(-4deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes rebolar {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes olhar {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(6deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes flutuar {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Grelhas e cartões (comuns) */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      border: 3px solid #e5e7eb;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    /* Cartões por tema */
+    body.dogs .card { border-color: #fecaca; }
+    body.dogs .card:hover { border-color: #f97316; }
+
+    body.cats .card { border-color: #ddd6fe; }
+    body.cats .card:hover { border-color: #a855f7; }
+
+    body.birds .card { border-color: #93c5fd; }
+    body.birds .card:hover { border-color: #2563eb; }
+
+    /* Detalhes */
+    .details {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+      border: 2px solid transparent;
+    }
+
+    .details h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    body.dogs .details { background: #fee2e2; border-color: #fecaca; }
+    body.dogs .details h3 { color: #b91c1c; }
+
+    body.cats .details { background: #ede9fe; border-color: #ddd6fe; }
+    body.cats .details h3 { color: #7c3aed; }
+
+    body.birds .details { background: #dbeafe; border-color: #60a5fa; }
+    body.birds .details h3 { color: #1d4ed8; }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .details img {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+
+    .details audio {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .tip {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #1f2937;
+    }
+
+    .info p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .emoji {
+      font-size: 1.1rem;
+      margin-right: 4px;
+    }
+
+    .back-wrapper {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.4);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    body.dogs .back-btn {
+      background: #f97316;
+      color: #ffffff;
+      box-shadow: 0 6px 14px rgba(194, 65, 12, 0.6);
+    }
+    body.dogs .back-btn:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.75);
+    }
+
+    body.cats .back-btn {
+      background: #a855f7;
+      color: #ffffff;
+      box-shadow: 0 6px 14px rgba(126, 34, 206, 0.6);
+    }
+    body.cats .back-btn:hover {
+      background: #7c3aed;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(126, 34, 206, 0.75);
+    }
+
+    body.birds .back-btn {
+      background: #f97316;
+      color: #ffffff;
+      box-shadow: 0 6px 14px rgba(194, 65, 12, 0.6);
+    }
+    body.birds .back-btn:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.75);
+    }
+
+    .audio-toggle {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .audio-toggle button {
+      margin-left: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #0f172a;
+      background: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    body.dogs .audio-toggle button { border-color: #b91c1c; color: #b91c1c; }
+    body.dogs .audio-toggle button:hover { background: #b91c1c; color: #ffffff; }
+
+    body.cats .audio-toggle button { border-color: #7c3aed; color: #7c3aed; }
+    body.cats .audio-toggle button:hover { background: #7c3aed; color: #ffffff; }
+
+    body.birds .audio-toggle button { border-color: #1d4ed8; color: #1d4ed8; }
+    body.birds .audio-toggle button:hover { background: #1d4ed8; color: #ffffff; }
+
+    /* Secções */
+    .section {
+      display: none;
+    }
+
+    .section.activa {
+      display: block;
+    }
+
+    /* ------- ESTILOS DO JOGO ------- */
+    .game-wrapper {
+      margin-top: 8px;
+    }
+
+    .game-card {
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 24px 22px 20px 22px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+    }
+
+    .game-subtitle {
+      text-align: center;
+      color: #4b5563;
+      font-size: 1rem;
+      margin-top: 6px;
+      margin-bottom: 14px;
+    }
+
+    .game-layout {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .game-left,
+    .game-right {
+      background: #f9fafb;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: inset 0 0 0 1px #e5e7eb;
+    }
+
+    #j-animal-img {
+      width: 100%;
+      max-width: 340px;
+      height: 220px;
+      object-fit: contain;
+      border-radius: 16px;
+      background: #f3f4f6;
+      box-shadow: 0 8px 20px rgba(15,23,42,0.3);
+      padding: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .j-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .j-options {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .j-option {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.95rem;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+    }
+
+    .j-option:hover {
+      background: #eff6ff;
+      border-color: #60a5fa;
+      box-shadow: 0 5px 12px rgba(37, 99, 235, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .j-option.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #166534;
+    }
+
+    .j-option.incorrect {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+
+    .j-option:disabled {
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .j-feedback {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #0f172a;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #f3f4f6;
+      min-height: 24px;
+    }
+
+    .j-score {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .j-bottom-row {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .j-btn-primary {
+      background: #2563eb;
+      color: #fff;
+      padding: 9px 16px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.6);
+      transition: background 0.18s ease, transform 0.08s ease, box-shadow 0.18s ease;
+    }
+
+    .j-btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(30, 64, 175, 0.75);
+    }
+
+    .j-btn-secondary {
+      background: #ffffff;
+      border-radius: 999px;
+      border: 1px solid #9ca3af;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .j-progress {
+      margin-top: 8px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .j-progress-inner {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+      transition: width 0.2s ease;
+    }
+
+    @media (max-width: 720px) {
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+      .game-layout {
+        grid-template-columns: 1fr;
+      }
+      #j-animal-img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body class="dogs">
+  <!-- Fundos -->
+  <div class="bg-dogs">
+    <span class="icon-dog dog-1">🐶</span>
+    <span class="icon-dog dog-2">🐕‍🦺</span>
+    <span class="icon-dog dog-3">🐾</span>
+    <span class="icon-dog dog-4">🦴</span>
+  </div>
+
+  <div class="bg-cats">
+    <span class="icon-cat cat-1">🐱</span>
+    <span class="icon-cat cat-2">😺</span>
+    <span class="icon-cat cat-3">🐾</span>
+    <span class="icon-cat cat-4">🐟</span>
+  </div>
+
+  <div class="bg-animals">
+    <span class="animal-icon animal-bird">🐦</span>
+    <span class="animal-icon animal-bird-2">🕊️</span>
+    <span class="animal-icon animal-dog">🐶</span>
+    <span class="animal-icon animal-cat">🐱</span>
+  </div>
+
+  <!-- Navegação global -->
+  <div class="top-nav">
+    <button id="btn-nav-caes" class="active">Cães</button>
+    <button id="btn-nav-gatos">Gatos</button>
+    <button id="btn-nav-passaros">Pássaros</button>
+    <button id="btn-nav-jogo">Jogo</button>
+  </div>
+
+  <!-- Secção CÃES -->
+  <section id="sec-caes" class="section activa">
+    <div class="container">
+      <h1>🐶 Amigo dos Animais</h1>
+      <h2>Especialidade: Cães</h2>
+      <p class="subtitle">Clica numa raça para a conhecer melhor. Vê as fotos, ouve o ladrar e descobre como cuidar bem destes amigos!</p>
+
+      <div class="audio-toggle">
+        Som de fundo dos cães:
+        <button id="btn-som-caes">Ligar</button>
+      </div>
+
+      <div class="grid" id="grid-caes"></div>
+      <div id="detalhes-caes"></div>
+    </div>
+
+    <audio id="audio-ambiente-caes" src="ambiente-caes.mp3" loop></audio>
+  </section>
+
+  <!-- Secção GATOS -->
+  <section id="sec-gatos" class="section">
+    <div class="container">
+      <h1>🐱 Amigo dos Animais</h1>
+      <h2>Especialidade: Gatos</h2>
+      <p class="subtitle">Clica numa raça de gato para a conhecer melhor. Vê as fotos, ouve o miar e descobre como cuidar bem destes amigos felinos!</p>
+
+      <div class="audio-toggle">
+        Som de fundo dos gatos:
+        <button id="btn-som-gatos">Ligar</button>
+      </div>
+
+      <div class="grid" id="grid-gatos"></div>
+      <div id="detalhes-gatos"></div>
+    </div>
+
+    <audio id="audio-ambiente-gatos" src="ambiente-gatos.mp3" loop></audio>
+  </section>
+
+  <!-- Secção PÁSSAROS -->
+  <section id="sec-passaros" class="section">
+    <div class="container">
+      <h1>🐾 Amigo dos Animais</h1>
+      <h2>Especialidade: Pássaros</h2>
+      <p class="subtitle">Clica num pássaro para o conhecer melhor. Vê as fotos, ouve o som e descobre curiosidades!</p>
+
+      <div class="audio-toggle">
+        Som de fundo dos animais:
+        <button id="btn-som-passaros">Ligar</button>
+      </div>
+
+      <div class="grid" id="grid-passaros"></div>
+      <div id="detalhes-passaros"></div>
+    </div>
+
+    <audio id="audio-ambiente-passaros" src="ambiente-animais.mp3" loop></audio>
+  </section>
+
+  <!-- Secção JOGO -->
+  <section id="sec-jogo" class="section">
+    <div class="container">
+      <div class="game-wrapper">
+        <div class="game-card">
+          <h1>Jogo Educativo – Amigo dos Animais 🐾</h1>
+          <p class="game-subtitle">
+            Responde a 10 perguntas sobre curiosidades, alimentação, nidificação e características.
+          </p>
+
+          <div class="j-progress">
+            <div id="j-progress-inner" class="j-progress-inner"></div>
+          </div>
+
+          <div class="game-layout">
+            <div class="game-left">
+              <img id="j-animal-img" src="" alt="Animal" />
+            </div>
+            <div class="game-right">
+              <div class="j-question" id="j-pergunta"></div>
+              <div class="j-options" id="j-opcoes"></div>
+              <div class="j-feedback" id="j-feedback"></div>
+              <div class="j-bottom-row">
+                <div class="j-score" id="j-pontuacao"></div>
+                <div>
+                  <button class="j-btn-secondary" id="j-btn-reiniciar" style="display:none;">
+                    Jogar outra vez 🔄
+                  </button>
+                  <button class="j-btn-primary" id="j-btn-proxima">
+                    Próxima pergunta ➜
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /* --- DADOS DOS CÃES --- */
+    const caes = [
+      {
+        nome: "Pastor Alemão",
+        imagens: ["pastor1.png", "pastor2.png"],
+        som: "som-pastor.mp3",
+        porte: "Médio/grande, forte e atlético.",
+        tempoVida: "Vive normalmente entre 10 e 14 anos.",
+        caracter:
+          "É um cão muito inteligente, corajoso e fiel. Gosta de trabalhar e proteger a família.",
+        saude:
+          "Geralmente é saudável, mas pode ter problemas nas ancas e na coluna se não for bem acompanhado pelo veterinário.",
+        exercicio:
+          "Precisa de muitos passeios, corridas e jogos para gastar energia todos os dias.",
+        curiosidade:
+          "É muito usado como cão-polícia e cão de salvamento porque aprende comandos com muita facilidade."
+      },
+      {
+        nome: "São-Bernardo",
+        imagens: ["saobernardo1.png", "saobernardo2.png"],
+        som: "som-saobernardo.mp3",
+        porte: "É um gigante muito pesado, podendo passar dos 80 kg.",
+        tempoVida: "Costuma viver menos de 10 anos, por ser uma raça muito grande.",
+        caracter:
+          "É calmo, muito meigo e adora crianças. Precisa de estar perto da família e é um ótimo cão de guarda.",
+        saude:
+          "Pode ter problemas de ancas e precisa de controlo do peso para não sobrecarregar as articulações.",
+        exercicio:
+          "Não é muito rápido, mas precisa de bons passeios diários para se manter saudável.",
+        curiosidade:
+          "Ficou famoso por ajudar a salvar pessoas na neve nas montanhas da Suíça."
+      },
+      {
+        nome: "Cão da Serra da Estrela",
+        imagens: ["serra1.png", "serra2.png"],
+        som: "som-serra.mp3",
+        porte: "Grande e forte, próprio para guardar rebanhos nas montanhas.",
+        tempoVida: "Vive em média cerca de 12 anos.",
+        caracter:
+          "É muito leal, protetor e afetuoso com a família, especialmente com as crianças.",
+        saude:
+          "Como outras raças grandes, pode ter displasia da anca. Precisa de boa alimentação e exercício moderado.",
+        exercicio:
+          "Gosta de espaço ao ar livre e de passeios diários, mas não é um cão hiperativo.",
+        curiosidade:
+          "É uma raça portuguesa que protege o gado na Serra da Estrela, mesmo com frio e neve."
+      }
+    ];
+
+    /* --- DADOS DOS GATOS --- */
+    const gatos = [
+      {
+        nome: "Persa",
+        imagens: ["persa1.png", "persa2.png"],
+        som: "som-persa.mp3",
+        porte: "Gato de tamanho médio a grande, com pelo muito comprido e macio.",
+        personalidade:
+          "É calmo, muito meigo e adora colo e miminhos. Gosta de viver em apartamentos tranquilos.",
+        saude:
+          "Pode ter alguns problemas respiratórios por causa do focinho achatado. Precisa de ambiente fresco e visitas regulares ao veterinário.",
+        inteligencia:
+          "É inteligente e sensível. Gosta de rotina e é muito higiénico, precisa da caixa de areia sempre limpa.",
+        tempoVida:
+          "Costuma viver cerca de 14 anos se for bem cuidado."
+      },
+      {
+        nome: "Siamês",
+        imagens: ["siames1.png", "siames2.png"],
+        som: "som-siames.mp3",
+        porte: "Gato esguio e elegante, de tamanho médio, com olhos azul-safira.",
+        personalidade:
+          "É muito brincalhão, falador e ligado às pessoas. Gosta de estar no meio da família e de chamar a atenção.",
+        saude:
+          "É geralmente saudável e atlético, mas pode ter algumas doenças respiratórias e cardíacas. Precisa de acompanhamento veterinário.",
+        inteligencia:
+          "É um dos gatos mais inteligentes. Aprende truques, abre portas e mia muito para dizer o que quer.",
+        tempoVida:
+          "Tem expectativa de vida longa: normalmente entre 15 e 20 anos."
+      },
+      {
+        nome: "Vira-lata",
+        imagens: ["viralata1.png", "viralata2.png"],
+        som: "som-viralata.mp3",
+        porte: "Pode ser pequeno, médio ou grande – não há um padrão fixo.",
+        personalidade:
+          "Costuma ser muito grato e carinhoso quando é adotado. O seu temperamento pode variar: alguns são mais calmos, outros mais ariscos.",
+        saude:
+          "Muitos são fortes e resistentes, mas os que vivem na rua podem ficar doentes. Quando têm casa, vacinas e bons cuidados, ficam muito saudáveis.",
+        inteligencia:
+          "São espertos, independentes e adoram decidir por si. Normalmente aprendem a sobreviver sozinhos antes de serem adotados.",
+        tempoVida:
+          "Os que têm uma casa segura podem viver até cerca de 20 anos."
+      }
+    ];
+
+    /* --- DADOS DOS PÁSSAROS --- */
+    const passaros = [
+      {
+        nome: "Andorinha",
+        imagens: ["andorinha1.png", "andorinha2.png"],
+        som: "som-andorinha.mp3",
+        vida: "Vive em média entre 6 e 8 anos.",
+        ovos: "Costuma pôr 4 a 5 ovos.",
+        alimentacao: "Come insetos que apanha enquanto voa, como moscas e mosquitos.",
+        ninho:
+          "Faz ninhos de barro e palha, colados às paredes e beirais das casas ou estábulos.",
+        migratoria: "Sim. No outono voa para África e volta na primavera.",
+        curiosidade:
+          "Muitas andorinhas voltam todos os anos ao mesmo sítio para usar o mesmo ninho!"
+      },
+      {
+        nome: "Pardal",
+        imagens: ["pardal1.png", "pardal2.png"],
+        som: "som-pardal.mp3",
+        vida: "Geralmente vive entre 3 e 5 anos.",
+        ovos: "Põe 3 a 7 ovos de cada vez.",
+        alimentacao: "Adora sementes, migalhas de pão e também alguns insetos.",
+        ninho:
+          "Constrói ninhos com ramos, palha e penas em telhados, buracos nas paredes ou árvores.",
+        migratoria: "Não. Fica o ano inteiro perto das pessoas e das casas.",
+        curiosidade:
+          "Os pardais gostam tanto das cidades que é raro vê-los longe das pessoas."
+      },
+      {
+        nome: "Pomba",
+        imagens: ["pombo1.png", "pombo2.png"],
+        som: "som-pombo.mp3",
+        vida: "Pode viver entre 6 e 10 anos. Em cativeiro às vezes chega aos 15.",
+        ovos: "Normalmente põe 2 ovos.",
+        alimentacao: "Come grãos, sementes e restos de comida que encontra no chão.",
+        ninho:
+          "Faz ninhos simples com ramos em varandas, beirais de prédios ou árvores.",
+        migratoria:
+          "Não é migratória, mas pode voar muitos quilómetros por dia dentro da mesma região.",
+        curiosidade:
+          "As pombas-correio conseguem encontrar o caminho de volta para casa mesmo muito longe!"
+      }
+    ];
+
+    /* --- ELEMENTOS DOM --- */
+    const gridCaes = document.getElementById("grid-caes");
+    const detalhesCaes = document.getElementById("detalhes-caes");
+    const audioAmbienteCaes = document.getElementById("audio-ambiente-caes");
+    const btnSomCaes = document.getElementById("btn-som-caes");
+
+    const gridGatos = document.getElementById("grid-gatos");
+    const detalhesGatos = document.getElementById("detalhes-gatos");
+    const audioAmbienteGatos = document.getElementById("audio-ambiente-gatos");
+    const btnSomGatos = document.getElementById("btn-som-gatos");
+
+    const gridPassaros = document.getElementById("grid-passaros");
+    const detalhesPassaros = document.getElementById("detalhes-passaros");
+    const audioAmbientePassaros = document.getElementById("audio-ambiente-passaros");
+    const btnSomPassaros = document.getElementById("btn-som-passaros");
+
+    const btnNavCaes = document.getElementById("btn-nav-caes");
+    const btnNavGatos = document.getElementById("btn-nav-gatos");
+    const btnNavPassaros = document.getElementById("btn-nav-passaros");
+    const btnNavJogo = document.getElementById("btn-nav-jogo");
+
+    const secCaes = document.getElementById("sec-caes");
+    const secGatos = document.getElementById("sec-gatos");
+    const secPassaros = document.getElementById("sec-passaros");
+    const secJogo = document.getElementById("sec-jogo");
+
+    let somLigado = {
+      caes: false,
+      gatos: false,
+      passaros: false
+    };
+
+    /* --- FUNÇÕES DE LISTA/DETALHE --- */
+
+    function desenharListaCaes() {
+      gridCaes.innerHTML = "";
+      caes.forEach((c, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${c.imagens[0]}" alt="${c.nome}" />
+          <div class="card-title">${c.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e conhecer melhor 🐾</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhesCaes(index));
+        gridCaes.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhesCaes(idx) {
+      const c = caes[idx];
+      detalhesCaes.innerHTML = `
+        <div class="details">
+          <h3>${c.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${c.imagens[1]}" alt="${c.nome}" />
+            </div>
+            <div class="info">
+              <p><span class="emoji">📏</span><span class="label">Tamanho:</span> ${c.porte}</p>
+              <p><span class="emoji">⏳</span><span class="label">Tempo de vida:</span> ${c.tempoVida}</p>
+              <p><span class="emoji">💚</span><span class="label">Caráter:</span> ${c.caracter}</p>
+              <p><span class="emoji">🩺</span><span class="label">Saúde:</span> ${c.saude}</p>
+              <p><span class="emoji">🏃‍♂️</span><span class="label">Exercício:</span> ${c.exercicio}</p>
+              <p><span class="emoji">✨</span><span class="label">Curiosidade:</span> ${c.curiosidade}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhesCaes()">Voltar à escolha dos cães</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhesCaes.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhesCaes() {
+      detalhesCaes.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    window.fecharDetalhesCaes = fecharDetalhesCaes;
+
+    function desenharListaGatos() {
+      gridGatos.innerHTML = "";
+      gatos.forEach((g, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${g.imagens[0]}" alt="${g.nome}" />
+          <div class="card-title">${g.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e conhecer melhor 😺</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhesGatos(index));
+        gridGatos.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhesGatos(idx) {
+      const g = gatos[idx];
+      detalhesGatos.innerHTML = `
+        <div class="details">
+          <h3>${g.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${g.imagens[1]}" alt="${g.nome}" />
+            </div>
+            <div class="info">
+              <p><span class="emoji">📏</span><span class="label">Tamanho e aparência:</span> ${g.porte}</p>
+              <p><span class="emoji">💚</span><span class="label">Personalidade:</span> ${g.personalidade}</p>
+              <p><span class="emoji">🩺</span><span class="label">Saúde:</span> ${g.saude}</p>
+              <p><span class="emoji">🧠</span><span class="label">Inteligência:</span> ${g.inteligencia}</p>
+              <p><span class="emoji">⏳</span><span class="label">Tempo de vida:</span> ${g.tempoVida}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhesGatos()">Voltar à escolha dos gatos</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhesGatos.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhesGatos() {
+      detalhesGatos.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    window.fecharDetalhesGatos = fecharDetalhesGatos;
+
+    function desenharListaPassaros() {
+      gridPassaros.innerHTML = "";
+      passaros.forEach((p, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${p.imagens[0]}" alt="${p.nome}" />
+          <div class="card-title">${p.nome}</div>
+          <div class="card-subtitle">Clica para ouvir e descobrir ✨</div>
+        `;
+        card.addEventListener("click", () => mostrarDetalhesPassaros(index));
+        gridPassaros.appendChild(card);
+      });
+    }
+
+    function mostrarDetalhesPassaros(idx) {
+      const p = passaros[idx];
+      detalhesPassaros.innerHTML = `
+        <div class="details">
+          <h3>${p.nome}</h3>
+          <div class="details-grid">
+            <div>
+              <img src="${p.imagens[1]}" alt="${p.nome}" />
+              <audio controls autoplay>
+                <source src="${p.som}" type="audio/mpeg" />
+                O teu navegador não suporta áudio.
+              </audio>
+              <div class="tip">👂 Fecha os olhos, ouve o som e tenta imitar este pássaro!</div>
+            </div>
+            <div class="info">
+              <p><span class="emoji">⏳</span><span class="label">Quanto tempo vive?</span> ${p.vida}</p>
+              <p><span class="emoji">🥚</span><span class="label">Quantos ovos põe?</span> ${p.ovos}</p>
+              <p><span class="emoji">🍽️</span><span class="label">O que gosta de comer?</span> ${p.alimentacao}</p>
+              <p><span class="emoji">🏠</span><span class="label">Como é o ninho?</span> ${p.ninho}</p>
+              <p><span class="emoji">🧭</span><span class="label">Viaja para outros países?</span> ${p.migratoria}</p>
+              <p><span class="emoji">✨</span><span class="label">Curiosidade:</span> ${p.curiosidade}</p>
+            </div>
+          </div>
+          <div class="back-wrapper">
+            <button class="back-btn" onclick="fecharDetalhesPassaros()">Voltar à escolha dos pássaros</button>
+          </div>
+        </div>
+      `;
+      window.scrollTo({ top: detalhesPassaros.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function fecharDetalhesPassaros() {
+      detalhesPassaros.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    window.fecharDetalhesPassaros = fecharDetalhesPassaros;
+
+    /* --- SOM AMBIENTE POR SECÇÃO --- */
+
+    function desligarTodosOsSons() {
+      audioAmbienteCaes.pause();
+      audioAmbienteGatos.pause();
+      audioAmbientePassaros.pause();
+
+      btnSomCaes.textContent = "Ligar";
+      btnSomGatos.textContent = "Ligar";
+      btnSomPassaros.textContent = "Ligar";
+
+      somLigado.caes = false;
+      somLigado.gatos = false;
+      somLigado.passaros = false;
+    }
+
+    function toggleSom(tipo) {
+      if (tipo === "caes") {
+        if (!somLigado.caes) {
+          audioAmbienteCaes.volume = 0.3;
+          audioAmbienteCaes.play().catch(() => {});
+          btnSomCaes.textContent = "Desligar";
+          somLigado.caes = true;
+        } else {
+          audioAmbienteCaes.pause();
+          btnSomCaes.textContent = "Ligar";
+          somLigado.caes = false;
+        }
+      } else if (tipo === "gatos") {
+        if (!somLigado.gatos) {
+          audioAmbienteGatos.volume = 0.3;
+          audioAmbienteGatos.play().catch(() => {});
+          btnSomGatos.textContent = "Desligar";
+          somLigado.gatos = true;
+        } else {
+          audioAmbienteGatos.pause();
+          btnSomGatos.textContent = "Ligar";
+          somLigado.gatos = false;
+        }
+      } else if (tipo === "passaros") {
+        if (!somLigado.passaros) {
+          audioAmbientePassaros.volume = 0.3;
+          audioAmbientePassaros.play().catch(() => {});
+          btnSomPassaros.textContent = "Desligar";
+          somLigado.passaros = true;
+        } else {
+          audioAmbientePassaros.pause();
+          btnSomPassaros.textContent = "Ligar";
+          somLigado.passaros = false;
+        }
+      }
+    }
+
+    btnSomCaes.addEventListener("click", () => toggleSom("caes"));
+    btnSomGatos.addEventListener("click", () => toggleSom("gatos"));
+    btnSomPassaros.addEventListener("click", () => toggleSom("passaros"));
+
+    /* --- JOGO EDUCATIVO (10 PERGUNTAS) --- */
+
+    const animaisJogo = [
+      {
+        nome: "São-Bernardo",
+        imagem: "saobernardo2.png",
+        curiosidade: "É um cão gigante famoso por salvar pessoas na neve.",
+        alimentacao: "Alimenta-se de ração rica em proteínas e precisa de muita água.",
+        nidificacao: "Gosta de dormir em espaços amplos, frescos e confortáveis, com mantas no chão.",
+        caracteristica: "É calmo, muito meigo e protetor, especialmente com crianças.",
+      },
+      {
+        nome: "Cão da Serra da Estrela",
+        imagem: "serra2.png",
+        curiosidade: "É uma raça portuguesa que guarda rebanhos na Serra da Estrela.",
+        alimentacao: "Precisa de ração nutritiva adequada a cães de grande porte e exercício ao ar livre.",
+        nidificacao: "Prefere locais abrigados do frio e da chuva, muitas vezes perto do rebanho.",
+        caracteristica: "É leal, forte e muito protetor da família e do território.",
+      },
+      {
+        nome: "Persa",
+        imagem: "persa2.png",
+        curiosidade: "É uma das raças de gatos mais calmas para viver em apartamentos.",
+        alimentacao: "Come ração ou comida húmida de boa qualidade, própria para gatos de interior.",
+        nidificacao: "Gosta de dormir em locais altos e macios, como camas e almofadas.",
+        caracteristica: "É muito meigo, adora mimos e não gosta de ambientes barulhentos.",
+      },
+      {
+        nome: "Siamês",
+        imagem: "siames2.png",
+        curiosidade: "É conhecido por “falar” muito com as pessoas através de miados fortes.",
+        alimentacao: "Precisa de alimentação equilibrada para gatos ativos, com boa proteína.",
+        nidificacao: "Escolhe normalmente cantos quentes da casa, como sofás e camas.",
+        caracteristica: "É muito ativo, curioso, inteligente e muito ligado à família.",
+      },
+      {
+        nome: "Vira-lata (gato)",
+        imagem: "viralata2.png",
+        curiosidade: "Muitos são adotados após viverem na rua e tornam-se muito agradecidos.",
+        alimentacao: "Alimenta-se de ração comum para gatos e pode ser mais sensível se tiver vivido na rua.",
+        nidificacao: "Gosta de caixas de cartão, mantas e qualquer sítio onde se sinta seguro.",
+        caracteristica: "É geralmente independente, esperto e adapta-se bem a diferentes ambientes.",
+      },
+      {
+        nome: "Andorinha",
+        imagem: "andorinha2.png",
+        curiosidade: "Viaja todos os anos entre Portugal e África, percorrendo milhares de quilómetros.",
+        alimentacao: "Come insetos que apanha em voo, como moscas e mosquitos.",
+        nidificacao: "Constrói ninhos de barro e palha colados às paredes e beirais das casas.",
+        caracteristica: "É pequena, muito rápida e passa grande parte do tempo a voar.",
+      },
+      {
+        nome: "Pardal",
+        imagem: "pardal2.png",
+        curiosidade: "Gosta de viver perto das pessoas nas cidades e aldeias.",
+        alimentacao: "Alimenta-se de sementes, migalhas de pão e pequenos insetos.",
+        nidificacao: "Faz ninhos simples em telhados, árvores e buracos nas paredes.",
+        caracteristica: "É pequeno, castanho e muito sociável, vive normalmente em grupo.",
+      },
+      {
+        nome: "Pomba",
+        imagem: "pombo2.png",
+        curiosidade: "As pombas-correio conseguem voltar a casa mesmo a muitos quilómetros.",
+        alimentacao: "Come grãos, sementes e restos de comida que encontra no chão.",
+        nidificacao: "Constrói ninhos com ramos em varandas, beirais e estruturas altas.",
+        caracteristica: "É pacífica, voa em bando e está muito adaptada às cidades.",
+      }
+    ];
+
+    const tiposPerguntaJogo = [
+      { campo: "curiosidade", texto: "Qual destas curiosidades é verdadeira sobre este animal?" },
+      { campo: "alimentacao", texto: "O que este animal costuma comer?" },
+      { campo: "nidificacao", texto: "Onde este animal normalmente faz o seu ninho ou local de descanso?" },
+      { campo: "caracteristica", texto: "Qual é uma característica típica deste animal?" },
+    ];
+
+    const NUM_PERGUNTAS = 10;
+
+    let jIndiceAtual = 0;
+    let jPontuacao = 0;
+    let jPerguntas = [];
+
+    const jImg = document.getElementById("j-animal-img");
+    const jPerguntaEl = document.getElementById("j-pergunta");
+    const jOpcoesEl = document.getElementById("j-opcoes");
+    const jFeedbackEl = document.getElementById("j-feedback");
+    const jPontuacaoEl = document.getElementById("j-pontuacao");
+    const jBtnProxima = document.getElementById("j-btn-proxima");
+    const jBtnReiniciar = document.getElementById("j-btn-reiniciar");
+    const jProgressInner = document.getElementById("j-progress-inner");
+
+    function baralhar(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function gerarPerguntasJogo() {
+      const lista = [];
+      for (let i = 0; i < NUM_PERGUNTAS; i++) {
+        const animal = animaisJogo[Math.floor(Math.random() * animaisJogo.length)];
+        const tipo = tiposPerguntaJogo[Math.floor(Math.random() * tiposPerguntaJogo.length)];
+        lista.push({ animal, tipo });
+      }
+      return lista;
+    }
+
+    function actualizarProgressoJogo() {
+      const percent = (jIndiceAtual / NUM_PERGUNTAS) * 100;
+      jProgressInner.style.width = percent + "%";
+    }
+
+    function mostrarPerguntaJogo() {
+      jFeedbackEl.textContent = "";
+
+      if (jIndiceAtual >= NUM_PERGUNTAS) {
+        // fim do jogo
+        jPerguntaEl.textContent = "Fim do jogo!";
+        jOpcoesEl.innerHTML = "";
+        jImg.src = "";
+        jBtnProxima.style.display = "none";
+        jBtnReiniciar.style.display = "inline-block";
+
+        jPontuacaoEl.textContent = `Respondeste a ${NUM_PERGUNTAS} perguntas e acertaste ${jPontuacao}.`;
+        jFeedbackEl.textContent = jPontuacao >= NUM_PERGUNTAS * 0.7
+          ? "Excelente! Já conheces muito bem estes animais. 🏆"
+          : "Boa tentativa! Podes jogar outra vez para aprenderes ainda mais. 🐾";
+
+        actualizarProgressoJogo();
+        return;
+      }
+
+      const { animal, tipo } = jPerguntas[jIndiceAtual];
+
+      jImg.src = animal.imagem;
+      jImg.alt = animal.nome;
+
+      jPerguntaEl.textContent = `${animal.nome} – ${tipo.texto}`;
+
+      const correta = animal[tipo.campo];
+      const outras = animaisJogo
+        .filter(a => a.nome !== animal.nome)
+        .map(a => a[tipo.campo])
+        .filter(Boolean);
+
+      const opcoesArr = baralhar([correta, ...outras.slice(0, 2)]);
+
+      jOpcoesEl.innerHTML = "";
+      opcoesArr.forEach(texto => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "j-option";
+        btn.textContent = texto;
+        btn.onclick = () => verificarRespostaJogo(texto, correta);
+        jOpcoesEl.appendChild(btn);
+      });
+
+      jPontuacaoEl.textContent = `Pergunta ${jIndiceAtual + 1} de ${NUM_PERGUNTAS} | Pontos: ${jPontuacao}`;
+      actualizarProgressoJogo();
+    }
+
+    function verificarRespostaJogo(resposta, correta) {
+      const botoes = document.querySelectorAll(".j-option");
+      botoes.forEach(b => b.disabled = true);
+
+      if (resposta === correta) {
+        jPontuacao++;
+        jFeedbackEl.textContent = "✅ Correto! Muito bem.";
+      } else {
+        jFeedbackEl.textContent = `❌ A resposta certa era: ${correta}`;
+      }
+
+      botoes.forEach(b => {
+        if (b.textContent === correta) {
+          b.classList.add("correct");
+        } else if (b.textContent === resposta && resposta !== correta) {
+          b.classList.add("incorrect");
+        }
+      });
+
+      jPontuacaoEl.textContent = `Pergunta ${jIndiceAtual + 1} de ${NUM_PERGUNTAS} | Pontos: ${jPontuacao}`;
+    }
+
+    jBtnProxima.addEventListener("click", () => {
+      // só avança se já tiver respondido (botões disabled)
+      const respondeu = document.querySelector(".j-option:disabled");
+      if (!respondeu && jIndiceAtual < NUM_PERGUNTAS) return;
+
+      jIndiceAtual++;
+      mostrarPerguntaJogo();
+    });
+
+    jBtnReiniciar.addEventListener("click", () => {
+      jIndiceAtual = 0;
+      jPontuacao = 0;
+      jBtnProxima.style.display = "inline-block";
+      jBtnReiniciar.style.display = "none";
+      jPerguntas = gerarPerguntasJogo();
+      mostrarPerguntaJogo();
+    });
+
+    function iniciarJogoEducativo() {
+      jIndiceAtual = 0;
+      jPontuacao = 0;
+      jPerguntas = gerarPerguntasJogo();
+      jBtnProxima.style.display = "inline-block";
+      jBtnReiniciar.style.display = "none";
+      mostrarPerguntaJogo();
+    }
+
+    /* --- NAVEGAÇÃO ENTRE SECÇÕES --- */
+
+    function activarSecao(sec) {
+      // esconder secções
+      secCaes.classList.remove("activa");
+      secGatos.classList.remove("activa");
+      secPassaros.classList.remove("activa");
+      secJogo.classList.remove("activa");
+
+      // reset botões nav
+      btnNavCaes.classList.remove("active");
+      btnNavGatos.classList.remove("active");
+      btnNavPassaros.classList.remove("active");
+      btnNavJogo.classList.remove("active");
+
+      // desligar sons
+      desligarTodosOsSons();
+
+      document.body.classList.remove("dogs", "cats", "birds", "game");
+
+      if (sec === "caes") {
+        document.body.classList.add("dogs");
+        secCaes.classList.add("activa");
+        btnNavCaes.classList.add("active");
+      } else if (sec === "gatos") {
+        document.body.classList.add("cats");
+        secGatos.classList.add("activa");
+        btnNavGatos.classList.add("active");
+      } else if (sec === "passaros") {
+        document.body.classList.add("birds");
+        secPassaros.classList.add("activa");
+        btnNavPassaros.classList.add("active");
+      } else if (sec === "jogo") {
+        document.body.classList.add("game");
+        secJogo.classList.add("activa");
+        btnNavJogo.classList.add("active");
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    btnNavCaes.addEventListener("click", () => activarSecao("caes"));
+    btnNavGatos.addEventListener("click", () => activarSecao("gatos"));
+    btnNavPassaros.addEventListener("click", () => activarSecao("passaros"));
+    btnNavJogo.addEventListener("click", () => activarSecao("jogo"));
+
+    /* --- INICIALIZAÇÃO --- */
+    desenharListaCaes();
+    desenharListaGatos();
+    desenharListaPassaros();
+    iniciarJogoEducativo();
+    activarSecao("caes");
+  </script>
+</body>
+</html>
